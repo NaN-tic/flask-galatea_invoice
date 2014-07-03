@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, current_app, abort, g, \
     url_for, request, session, send_file
 from galatea.tryton import tryton
-from galatea.utils import get_tryton_locale, slugify
+from galatea.utils import slugify
 from galatea.helpers import login_required
 from flask.ext.babel import gettext as _
 from flask.ext.paginate import Pagination
@@ -22,12 +22,6 @@ INVOICE_FIELD_NAMES = [
     'create_date', 'invoice_date', 'number', 'reference', 'description',
     'state', 'type', 'untaxed_amount', 'tax_amount', 'total_amount',
     ]
-
-@tryton.default_context
-def default_context():
-    context = {}
-    context['language'] = get_tryton_locale(g.language)
-    return context
 
 @invoice.route("/print/<id>", endpoint="invoice_print")
 @login_required
