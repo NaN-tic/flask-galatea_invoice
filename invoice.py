@@ -11,9 +11,9 @@ invoice = Blueprint('invoice', __name__, template_folder='templates')
 
 DISPLAY_MSG = _('Displaying <b>{start} - {end}</b> {record_name} in total <b>{total}</b>')
 
-limit = current_app.config.get('TRYTON_PAGINATION_INVOICE_LIMIT', 20)
-invoice_report = current_app.config.get('TRYTON_INVOICE_REPORT', 'account.invoice')
-state_exclude = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE')
+LIMIT = current_app.config.get('TRYTON_PAGINATION_INVOICE_LIMIT', 20)
+INVOICE_REPORT = current_app.config.get('TRYTON_INVOICE_REPORT', 'account.invoice')
+STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE')
 
 Invoice = tryton.pool.get('account.invoice')
 InvoiceReport = tryton.pool.get('account.invoice', type='report')
@@ -32,7 +32,6 @@ def invoice_print(lang, id):
     invoices = Invoice.search_read([
         ('id', '=', id),
         ('party', '=', session['customer']),
-        ('state', 'in', current_app.config['TRYTON_INVOICE_PRINT']),
         ], limit=1, fields_names=['number'])
     
     if not invoices:
@@ -61,7 +60,6 @@ def invoice_detail(lang, id):
     invoices = Invoice.search([
         ('id', '=', id),
         ('party', '=', session['customer']),
-        ('state', 'not in', state_exclude),
         ], limit=1)
     if not invoices:
         abort(404)
@@ -98,20 +96,20 @@ def invoice_list(lang):
 
     domain = [
         ('party', '=', session['customer']),
-        ('state', 'not in', state_exclude),
+        ('state', 'not in', STATE_EXCLUDE),
         ]
     total = Invoice.search_count(domain)
-    offset = (page-1)*limit
+    offset = (page-1)*LIMIT
 
     order = [
         ('invoice_date', 'DESC'),
         ('id', 'DESC'),
         ]
     invoices = Invoice.search_read(
-        domain, offset, limit, order, INVOICE_FIELD_NAMES)
+        domain, offset, LIMIT, order, INVOICE_FIELD_NAMES)
 
     pagination = Pagination(
-        page=page, total=total, per_page=limit, display_msg=DISPLAY_MSG, bs_version='3')
+        page=page, total=total, per_page=LIMIT, display_msg=DISPLAY_MSG, bs_version='3')
 
     #breadcumbs
     breadcrumbs = [{
