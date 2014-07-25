@@ -9,7 +9,7 @@ import tempfile
 
 invoice = Blueprint('invoice', __name__, template_folder='templates')
 
-DISPLAY_MSG = _('Displaying <b>{start} - {end}</b> {record_name} in total <b>{total}</b>')
+DISPLAY_MSG = _('Displaying <b>{start} - {end}</b> {record_name} of <b>{total}</b>')
 
 LIMIT = current_app.config.get('TRYTON_PAGINATION_INVOICE_LIMIT', 20)
 INVOICE_REPORT = current_app.config.get('TRYTON_INVOICE_REPORT', 'account.invoice')
