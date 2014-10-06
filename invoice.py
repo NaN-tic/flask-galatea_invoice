@@ -3,13 +3,13 @@ from flask import Blueprint, render_template, current_app, abort, g, \
 from galatea.tryton import tryton
 from galatea.utils import slugify
 from galatea.helpers import login_required
-from flask.ext.babel import gettext as _, lazy_gettext as __
+from flask.ext.babel import gettext as _, lazy_gettext
 from flask.ext.paginate import Pagination
 import tempfile
 
 invoice = Blueprint('invoice', __name__, template_folder='templates')
 
-DISPLAY_MSG = __('Displaying <b>{start} - {end}</b> {record_name} of <b>{total}</b>')
+DISPLAY_MSG = lazy_gettext('Displaying <b>{start} - {end}</b> {record_name} of <b>{total}</b>')
 
 LIMIT = current_app.config.get('TRYTON_PAGINATION_INVOICE_LIMIT', 20)
 INVOICE_REPORT = current_app.config.get('TRYTON_INVOICE_REPORT', 'account.invoice')
