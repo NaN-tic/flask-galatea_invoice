@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, current_app, abort, g, \
     url_for, request, session, send_file
 from galatea.tryton import tryton
 from galatea.utils import slugify
-from galatea.helpers import login_required
+from galatea.helpers import login_required, customer_required
 from flask.ext.babel import gettext as _, lazy_gettext
 from flask.ext.paginate import Pagination
 import tempfile
@@ -25,6 +25,7 @@ INVOICE_FIELD_NAMES = [
 
 @invoice.route("/print/<id>", endpoint="invoice_print")
 @login_required
+@customer_required
 @tryton.transaction()
 def invoice_print(lang, id):
     '''Invoice Print'''
@@ -53,6 +54,7 @@ def invoice_print(lang, id):
 
 @invoice.route("/<id>", endpoint="invoice")
 @login_required
+@customer_required
 @tryton.transaction()
 def invoice_detail(lang, id):
     '''Invoice Detail'''
@@ -85,6 +87,7 @@ def invoice_detail(lang, id):
 
 @invoice.route("/", endpoint="invoices")
 @login_required
+@customer_required
 @tryton.transaction()
 def invoice_list(lang):
     '''Invoices'''
