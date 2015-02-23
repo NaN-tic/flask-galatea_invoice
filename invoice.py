@@ -18,11 +18,6 @@ STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE')
 Invoice = tryton.pool.get('account.invoice')
 InvoiceReport = tryton.pool.get('account.invoice', type='report')
 
-INVOICE_FIELD_NAMES = [
-    'create_date', 'invoice_date', 'number', 'reference', 'description',
-    'state', 'type', 'untaxed_amount', 'tax_amount', 'total_amount',
-    ]
-
 @invoice.route("/print/<id>", endpoint="invoice_print")
 @login_required
 @customer_required
@@ -30,10 +25,10 @@ INVOICE_FIELD_NAMES = [
 def invoice_print(lang, id):
     '''Invoice Print'''
 
-    invoices = Invoice.search_read([
+    invoices = Invoice.search([
         ('id', '=', id),
         ('party', '=', session['customer']),
-        ], limit=1, fields_names=['number'])
+        ], limit=1)
     
     if not invoices:
         abort(404)
@@ -108,8 +103,7 @@ def invoice_list(lang):
         ('invoice_date', 'DESC'),
         ('id', 'DESC'),
         ]
-    invoices = Invoice.search_read(
-        domain, offset, LIMIT, order, INVOICE_FIELD_NAMES)
+    invoices = Invoice.search(domain, offset, LIMIT, order)
 
     pagination = Pagination(
         page=page, total=total, per_page=LIMIT, display_msg=DISPLAY_MSG, bs_version='3')
