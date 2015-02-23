@@ -13,7 +13,7 @@ DISPLAY_MSG = lazy_gettext('Displaying <b>{start} - {end}</b> of <b>{total}</b>'
 
 LIMIT = current_app.config.get('TRYTON_PAGINATION_INVOICE_LIMIT', 20)
 INVOICE_REPORT = current_app.config.get('TRYTON_INVOICE_REPORT', 'account.invoice')
-STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE')
+STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE', [])
 
 Invoice = tryton.pool.get('account.invoice')
 InvoiceReport = tryton.pool.get('account.invoice', type='report')
