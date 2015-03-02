@@ -47,7 +47,7 @@ def invoice_print(lang, id):
 
     return send_file(data, attachment_filename=report_name, as_attachment=True)
 
-@invoice.route("/<id>", endpoint="invoice")
+@invoice.route("/<int:id>", endpoint="invoice")
 @login_required
 @customer_required
 @tryton.transaction()
