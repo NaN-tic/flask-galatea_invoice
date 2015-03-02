@@ -18,7 +18,7 @@ STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE', [])
 Invoice = tryton.pool.get('account.invoice')
 InvoiceReport = tryton.pool.get('account.invoice', type='report')
 
-@invoice.route("/print/<id>", endpoint="invoice_print")
+@invoice.route("/print/<int:id>", endpoint="invoice_print")
 @login_required
 @customer_required
 @tryton.transaction()
@@ -35,8 +35,8 @@ def invoice_print(lang, id):
 
     invoice, = invoices
 
-    _, report, _, _ = InvoiceReport.execute([invoice['id']], {})
-    report_name = 'invoice-%s.pdf' % (slugify(invoice.get('number')) or 'invoice')
+    _, report, _, _ = InvoiceReport.execute([invoice.id], {})
+    report_name = 'invoice-%s.pdf' % (slugify(invoice.number) or 'invoice')
 
     with tempfile.NamedTemporaryFile(
             prefix='%s-' % current_app.config['TRYTON_DATABASE'],
