@@ -14,6 +14,7 @@ DISPLAY_MSG = lazy_gettext('Displaying <b>{start} - {end}</b> of <b>{total}</b>'
 LIMIT = current_app.config.get('TRYTON_PAGINATION_INVOICE_LIMIT', 20)
 INVOICE_REPORT = current_app.config.get('TRYTON_INVOICE_REPORT', 'account.invoice')
 STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE', [])
+STATE_INVOICE_PRINT = current_app.config.get('TRYTON_INVOICE_PRINT', ['paid'])
 
 Invoice = tryton.pool.get('account.invoice')
 InvoiceReport = tryton.pool.get('account.invoice', type='report')
@@ -28,6 +29,7 @@ def invoice_print(lang, id):
     invoices = Invoice.search([
         ('id', '=', id),
         ('party', '=', session['customer']),
+        ('state', 'in', STATE_INVOICE_PRINT),
         ], limit=1)
     
     if not invoices:
