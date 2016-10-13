@@ -3,8 +3,8 @@ from flask import Blueprint, render_template, current_app, abort, g, \
 from galatea.tryton import tryton
 from galatea.utils import slugify
 from galatea.helpers import login_required, customer_required
-from flask.ext.babel import gettext as _, lazy_gettext
-from flask.ext.paginate import Pagination
+from flask_babel import gettext as _, lazy_gettext
+from flask_paginate import Pagination
 import tempfile
 
 invoice = Blueprint('invoice', __name__, template_folder='templates')
