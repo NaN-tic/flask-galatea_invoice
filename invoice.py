@@ -26,12 +26,14 @@ InvoiceReport = tryton.pool.get('account.invoice', type='report')
 def invoice_print(lang, id):
     '''Invoice Print'''
 
-    invoices = Invoice.search([
+    domain = [
         ('id', '=', id),
-        ('party', '=', session['customer']),
         ('state', 'in', STATE_INVOICE_PRINT),
-        ], limit=1)
-    
+        ]
+    if not session.get('manager', False):
+        domain.append(('party', '=', session['customer']))
+    invoices = Invoice.search(domain, limit=1)
+
     if not invoices:
         abort(404)
 
