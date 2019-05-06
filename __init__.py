@@ -1,2 +1,1 @@
-from invoice import *
-
+from .invoice import *
