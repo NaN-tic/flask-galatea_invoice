@@ -17,7 +17,7 @@ STATE_EXCLUDE = current_app.config.get('TRYTON_INVOICE_STATE_EXCLUDE', [])
 STATE_INVOICE_PRINT = current_app.config.get('TRYTON_INVOICE_PRINT', ['paid'])
 
 Invoice = tryton.pool.get('account.invoice')
-InvoiceReport = tryton.pool.get('account.invoice', type='report')
+InvoiceReport = tryton.pool.get(INVOICE_REPORT, type='report')
 
 @invoice.route("/print/<int:id>", endpoint="invoice_print")
 @login_required
