@@ -49,7 +49,7 @@ def invoice_print(lang, id):
     temp.close()
     data = open(temp.name, 'rb')
 
-    return send_file(data, attachment_filename=report_name, as_attachment=True)
+    return send_file(data, download_name=report_name, as_attachment=True)
 
 @invoice.route("/<int:id>", endpoint="invoice")
 @login_required
