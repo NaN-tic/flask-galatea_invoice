@@ -1,7 +1,7 @@
+from trytond.modules.voyager import slugify
 from flask import Blueprint, render_template, current_app, abort, g, \
     url_for, request, session, send_file
 from galatea.tryton import tryton
-from galatea.utils import slugify
 from galatea.helpers import login_required, customer_required
 from flask_babel import gettext as _, lazy_gettext
 from flask_paginate import Pagination
